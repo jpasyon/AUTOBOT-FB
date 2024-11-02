@@ -3,9 +3,9 @@ const axios = require('axios');
 module.exports.config = {
     name: "imgur",
     version: "1.0.0",
-    role: 1,
+    role: 0,
     hasPrefix: false,
-    credits: "cliff", //from fca 
+    credits: "Juno", // Changed credits to Juno
     description: "upload to imgur",
     usages: "imgur reply image, video, png, jpg",
     cooldown: 0,
@@ -56,18 +56,8 @@ module.exports.run = async function ({ api, event }) {
         }
     }
 
-    return api.sendMessage(`╭─『 𝗜𝗠𝗚/𝗟𝗜𝗡𝗞 』✧✧✧
-╰✧✧✧───────────✧
-╭✧✧✧───────────✧
-✅ Success Uploads: ${array.length}
-❌ Failed Uploads: ${event.messageReply.attachments.length - array.length}
-🏷️ Image link:
-${array.join("\n")}
-╰─────────────✧✧✧
-◉ 𝚁𝙴𝙿𝙻𝚈 '𝚄𝙽𝚂𝙴𝙽𝙳' 𝚃𝙾 𝚁𝙴𝙼𝙾𝚅𝙴 𝚃𝙷𝙴 𝙰𝙸'𝚜 𝚁𝙴𝚂𝙿𝙾𝙽𝚂𝙴.
-◉ 𝚃𝙷𝙴𝚂𝙴 𝙲𝙾𝙼𝙼𝙰𝙽𝙳 𝙸𝙽𝚃𝙴𝙽𝙳𝙴𝙳 𝙵𝙾𝚁 𝚃𝙴𝚇𝚃 𝙵𝙾𝚁𝙼 𝙾𝙽𝙻𝚈!
-╭✧✧✧───────────✧
-    »𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙰𝙸 𝙾𝚆𝙽𝙴𝚁«
-https://www.facebook.com/geotechph.net
-╰─────────────✧✧✧`, event.threadID, event.messageID);
+    return api.sendMessage(`Success Uploads: ${array.length}
+Failed Uploads: ${event.messageReply.attachments.length - array.length}
+Image link:
+${array.join("\n")}`, event.threadID, event.messageID);
 };
