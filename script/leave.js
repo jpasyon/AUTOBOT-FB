@@ -1,9 +1,9 @@
 module.exports.config = {
   name: "leave",
   version: "1.0.0",
-  role: 1,
+  role: 2,
   hasPrefix: true,
-  credits: "GeoDevz69",
+  credits: "Juno",
   description: "Bot leaves the thread",
   usages: "leave",
   cooldowns: 10,
