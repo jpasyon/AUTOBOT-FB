@@ -6,19 +6,10 @@ module.exports["config"] = {
     name: "music",
     version: "1.0.0",
     info: "Search music from SoundCloud and send it as an attachment.",
-    credits: "GeoDevz69",
+    credits: "Juno",
     isPrefix: false,
     role: 0,
-    aliases: ['play',
-        'sing',
-        'song',
-        'kanta',
-        'spotify',
-        'lyrics',
-        'lyric',
-        'lyrist',
-        'soundcloud',
-        'sc'],
+    aliases: ['play', 'sing', 'song', 'kanta', 'spotify', 'lyrics', 'lyric', 'lyrist', 'soundcloud', 'sc'],
     usage: '[title]',
 };
 
@@ -33,9 +24,7 @@ const userAgents = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15"
 ];
 
-module.exports["run"] = async ({
-    api, event, args
-}) => {
+module.exports["run"] = async ({ api, event, args }) => {
     const chat = {
         reply: (txt) => api.sendMessage(txt, event.threadID)
     };
@@ -43,10 +32,10 @@ module.exports["run"] = async ({
     const musicName = args.join(' ');
 
     if (!musicName) {
-        return chat.reply(`╭─『 𝗠𝗨𝗦𝗜𝗖 』✧✧✧\n╰✧✧✧───────────✧\n╭✧✧✧───────────✧\n𝙍𝙚𝙨𝙥𝙤𝙣𝙨𝙚:Please provide the title of the music!\n╰─────────────✧✧✧\n◉ 𝚁𝙴𝙿𝙻𝚈 '𝚄𝙽𝚂𝙴𝙽𝙳' 𝚃𝙾 𝚁𝙴𝙼𝙾𝚅𝙴 𝚃𝙷𝙴 𝙰𝙸'𝚜 𝚁𝙴𝚂𝙿𝙾𝙽𝚂𝙴.\n◉ 𝙿𝙻𝙴𝙰𝚂𝙴 𝙳𝙾𝙽'𝚃 𝚂𝙿𝙰𝙼 𝚃𝙷𝙸𝚂 𝙲𝙾𝙼𝙼𝙰𝙽𝙳!\n╭✧✧✧───────────✧\n    »𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙰𝙸 𝙾𝚆𝙽𝙴𝚁«\nhttps://www.facebook.com/geotechph.net\n╰─────────────✧✧✧`);
+        return chat.reply(`Please provide the title of the music!`);
     }
 
-    const searching = await chat.reply(`╭─『 𝗠𝗨𝗦𝗜𝗖 』✧✧✧\n╰✧✧✧───────────✧\n╭✧✧✧───────────✧\n𝙍𝙚𝙨𝙥𝙤𝙣𝙨𝙚: 🔍 | Searching for "${musicName}"...\n╰─────────────✧✧✧\n◉ 𝚁𝙴𝙿𝙻𝚈 '𝚄𝙽𝚂𝙴𝙽𝙳' 𝚃𝙾 𝚁𝙴𝙼𝙾𝚅𝙴 𝚃𝙷𝙴 𝙰𝙸'𝚜 𝚁𝙴𝚂𝙿𝙾𝙽𝚂𝙴.\n◉ 𝙿𝙻𝙴𝙰𝚂𝙴 𝙳𝙾𝙽'𝚃 𝚂𝙿𝙰𝙼 𝚃𝙷𝙸𝚂 𝙲𝙾𝙼𝙼𝙰𝙽𝙳!\n╭✧✧✧───────────✧\n    »𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙰𝙸 𝙾𝚆𝙽𝙴𝚁«\nhttps://www.facebook.com/geotechph.net\n╰─────────────✧✧✧`);
+    const searching = await chat.reply(`Searching for "${musicName}"...`);
 
     let filePath;
     try {
@@ -57,14 +46,10 @@ module.exports["run"] = async ({
             }
         });
 
-        const {
-            title,
-            lyrics,
-            audio_b64
-        } = response.data;
+        const { title, lyrics, audio_b64 } = response.data;
 
         if (!title || !audio_b64) {
-            return chat.reply("╭─『 𝗠𝗨𝗦𝗜𝗖 』✧✧✧\n╰✧✧✧───────────✧\n╭✧✧✧───────────✧\n𝙍𝙚𝙨𝙥𝙤𝙣𝙨𝙚: Can't find the music you're looking for.\n╰─────────────✧✧✧\n◉ 𝚁𝙴𝙿𝙻𝚈 '𝚄𝙽𝚂𝙴𝙽𝙳' 𝚃𝙾 𝚁𝙴𝙼𝙾𝚅𝙴 𝚃𝙷𝙴 𝙰𝙸'𝚜 𝚁𝙴𝚂𝙿𝙾𝙽𝚂𝙴.\n◉ 𝙿𝙻𝙴𝙰𝚂𝙴 𝙳𝙾𝙽'𝚃 𝚂𝙿𝙰𝙼 𝚃𝙷𝙸𝚂 𝙲𝙾𝙼𝙼𝙰𝙽𝙳!\n╭✧✧✧───────────✧\n    »𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙰𝙸 𝙾𝚆𝙽𝙴𝚁«\nhttps://www.facebook.com/geotechph.net\n╰─────────────✧✧✧");
+            return chat.reply("Can't find the music you're looking for.");
         }
 
         // Create a temporary file to save the music from the base64 string
@@ -79,17 +64,17 @@ module.exports["run"] = async ({
             return chat.reply('The file could not be sent because it is larger than 25MB.');
         }
 
-        const message = {
-            body: `${title}`,
-            attachment: fs.createReadStream(filePath)
-        };
-
         if (lyrics) await chat.reply(lyrics);
 
-         chat.reply(message);
+        // Send the music file as an attachment
+        const message = {
+            body: title,
+            attachment: fs.createReadStream(filePath)
+        };
+        await api.sendMessage(message, event.threadID);
 
     } catch (error) {
-        chat.reply(error.message || "╭─『 𝗠𝗨𝗦𝗜𝗖 』✧✧✧\n╰✧✧✧───────────✧\n╭✧✧✧───────────✧\n𝙍𝙚𝙨𝙥𝙤𝙣𝙨𝙚:An error occurred while fetching the music.\n╰─────────────✧✧✧\n◉ 𝚁𝙴𝙿𝙻𝚈 '𝚄𝙽𝚂𝙴𝙽𝙳' 𝚃𝙾 𝚁𝙴𝙼𝙾𝚅𝙴 𝚃𝙷𝙴 𝙰𝙸'𝚜 𝚁𝙴𝚂𝙿𝙾𝙽𝚂𝙴.\n◉ 𝙿𝙻𝙴𝙰𝚂𝙴 𝙳𝙾𝙽'𝚃 𝚂𝙿𝙰𝙼 𝚃𝙷𝙸𝚂 𝙲𝙾𝙼𝙼𝙰𝙽𝙳!\n╭✧✧✧───────────✧\n    »𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙰𝙸 𝙾𝚆𝙽𝙴𝚁«\nhttps://www.facebook.com/geotechph.net\n╰─────────────✧✧✧");
+        chat.reply(error.message || "An error occurred while fetching the music.");
     } finally {
         if (filePath && fs.existsSync(filePath)) {
             fs.unlinkSync(filePath); // Clean up the temporary file
