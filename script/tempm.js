@@ -15,8 +15,7 @@ function generateRandomId() {
 module.exports.config = {
 		name: "tempm",
 		role: 0,
-		credits: "GeoDevz69",
-		description: "╭─『 𝗧𝗘𝗠𝗣𝗠𝗔𝗜𝗟 』✧✧✧\n╰✧✧✧───────────✧\n╭✧✧✧───────────✧\n𝙍𝙚𝙨𝙥𝙤𝙣𝙨𝙚: Generate temporary email (auto get inbox)\n╰─────────────✧✧✧\n◉ 𝚁𝙴𝙿𝙻𝚈 '𝚄𝙽𝚂𝙴𝙽𝙳' 𝚃𝙾 𝚁𝙴𝙼𝙾𝚅𝙴 𝚃𝙷𝙴 𝙰𝙸'𝚜 𝚁𝙴𝚂𝙿𝙾𝙽𝚂𝙴.\n◉ 𝚄𝚂𝙴 𝚃𝙷𝙴 𝙶𝙴𝙽𝙴𝚁𝙰𝚃𝙴𝙳 𝙴𝙼𝙰𝙸𝙻 𝚃𝙾 𝙶𝙴𝚃 𝚈𝙾𝚄𝚁 𝙾𝚃𝙿 𝙲𝙾𝙳𝙴 𝙷𝙴𝚁𝙴!\n╭✧✧✧───────────✧\n    »𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙰𝙸 𝙾𝚆𝙽𝙴𝚁«\nhttps://www.facebook.com/geotechph.net\n╰─────────────✧✧✧",
+		credits: "Juno",
 		usages: "[tempmail]",
 		hasPrefix: false,
 		cooldown: 5,
@@ -42,8 +41,8 @@ module.exports.run = async function ({ api, event }) {
 										return;
 								} else {
 										let b = mails[0];
-										var msg = `╭─『 𝗧𝗘𝗠𝗣𝗠𝗔𝗜𝗟 』✧✧✧\n╰✧✧✧───────────✧\n╭✧✧✧───────────✧\n𝙍𝙚𝙨𝙥𝙤𝙣𝙨𝙚:You have a message!\n\nFrom: ${b.from}\n\nSubject: ${b.subject}\n\nMessage: ${b.textBody}\nDate: ${b.date}`;
-										reply(msg + `\n\nOnce the email and message are received, they will be automatically deleted.\n╰─────────────✧✧✧\n◉ 𝚁𝙴𝙿𝙻𝚈 '𝚄𝙽𝚂𝙴𝙽𝙳' 𝚃𝙾 𝚁𝙴𝙼𝙾𝚅𝙴 𝚃𝙷𝙴 𝙰𝙸'𝚜 𝚁𝙴𝚂𝙿𝙾𝙽𝚂𝙴.\n◉ 𝚄𝚂𝙴 𝚃𝙷𝙴 𝙶𝙴𝙽𝙴𝚁𝙰𝚃𝙴𝙳 𝙴𝙼𝙰𝙸𝙻 𝚃𝙾 𝙶𝙴𝚃 𝚈𝙾𝚄𝚁 𝙾𝚃𝙿 𝙲𝙾𝙳𝙴 𝙷𝙴𝚁𝙴!\n╭✧✧✧───────────✧\n    »𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙰𝙸 𝙾𝚆𝙽𝙴𝚁«\nhttps://www.facebook.com/geotechph.net\n╰─────────────✧✧✧`);
+										var msg = `You have a message!\n\nFrom: ${b.from}\n\nSubject: ${b.subject}\n\nMessage: ${b.textBody}\nDate: ${b.date}`;
+										reply(msg + `\n\nOnce the email and message are received, they will be automatically deleted.`);
 										return mail.deleteMail();
 								}
 						});
