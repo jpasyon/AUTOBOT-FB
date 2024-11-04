@@ -1,7 +1,7 @@
 module.exports.config = {
     name: "offbot",
     role: 2, // Adjust the role according to your permission logic
-    credits: "yukihirasoma",
+    credits: "Juno",
     description: "Turns the bot off.",
     hasPrefix: true,
     usages: "{p}offbot",
