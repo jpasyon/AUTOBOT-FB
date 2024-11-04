@@ -1,7 +1,7 @@
 module.exports.config = {
     name: "offbot",
-    role: 2, // Adjust the role according to your permission logic
-    credits: "Juno",
+    role: 2,
+    credits: "yukihirasoma",
     description: "Turns the bot off.",
     hasPrefix: true,
     usages: "{p}offbot",
@@ -10,6 +10,9 @@ module.exports.config = {
 };
 
 module.exports.run = async function({ event, api }) {
+    // Set the shutdown flag
+    isShuttingDown = true;
+
     // Send a confirmation message before shutting down
     api.sendMessage("The bot is now turning off.", event.threadID, () => {
         process.exit(0);
