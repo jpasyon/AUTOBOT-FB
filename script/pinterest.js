@@ -3,7 +3,7 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 
 module.exports.config = {
-  name: "pinterest",
+  name: "pinterest", // or "pin"
   version: "1.0.0",
   role: 0,
   hasPrefix: true,
