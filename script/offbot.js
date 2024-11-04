@@ -1,25 +1,24 @@
 module.exports.config = {
-    name: "offbot",
-    role: 2, // Optional: This can still be defined for additional permission checks
-    credits: "Juno",
-    description: "Turns the bot off.",
-    hasPrefix: true,
-    usages: "{p}offbot",
-    cooldown: 0,
-    aliases: []
+  name: "offbot",
+  version: "1.0.0",
+  role: 1, // Assuming role 1 is admin
+  hasPrefix: true,
+  description: "Shuts down the bot.",
+  usages: "offbot",
+  credits: "Juno",
 };
 
-module.exports.run = async function({ event, api }) {
-    // Check if the sender is an admin
-    if (!adminIDs.includes(event.senderID)) {
-        return api.sendMessage("You do not have permission to use this command.", event.threadID);
+module.exports.run = async function({ api, event, roles }) {
+  const command = event.body.trim();
+
+  if (command.toLowerCase() === "offbot") {
+    // Check if the sender's role allows them to use this command
+    if (roles[event.senderID] && roles[event.senderID] === 1) { // Assuming role 1 is admin
+      api.sendMessage("Shutting down the bot. Goodbye!", event.threadID, () => {
+        process.exit(0); // This will terminate the bot process
+      });
+    } else {
+      api.sendMessage("You do not have permission to shut down the bot.", event.threadID);
     }
-
-    // Set the shutdown flag
-    isShuttingDown = true;
-
-    // Send a confirmation message before shutting down
-    api.sendMessage("The bot is now turning off.", event.threadID, () => {
-        process.exit(0);
-    });
+  }
 };
