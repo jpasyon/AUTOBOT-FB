@@ -29,7 +29,7 @@ module.exports.run = async function ({ api, event, args }) {
             return;
         }
 
-        const formattedResponse = `Ashley 18+:\n${ashleyResponse}`;
+        const formattedResponse = `Answer Ashley 18+:\n${ashleyResponse}`;
 
         await api.sendMessage(formattedResponse, event.threadID, event.messageID);
 
