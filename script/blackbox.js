@@ -28,7 +28,7 @@ module.exports.run = async function({ api, event, args }) {
     });
 
     try {
-        const response = await axios.get('https://markdevs-last-api-2epw.onrender.com/api/box', {
+        const response = await axios.get('https://blackbox-api-chi.vercel.app/api/blackbox?text=Hello%20AI&conversationId=435HGS&model=gpt-4o', {
             params: { query: prompt }
         });
         const result = response.data;
