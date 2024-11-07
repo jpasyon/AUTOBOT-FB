@@ -13,7 +13,7 @@ module.exports.run = async function ({ api, event }) {
     try {
         const sending = await api.sendMessage("Sending Shoti Video. Please wait...", event.threadID, event.messageID);
         
-        const response = await axios.get('https://shoti.kenliejugarap.com/getvideo.php?apikey=shoti-0763839a3b9de35ae3da73816d087d57d1bbae9f8997d9ebd0da823850fb80917e69d239a7f7db34b4d139a5e3b02658ed26f49928e5ab40f57c9798c9ae7290c536d8378ea8b01399723aaf35f62fae7c58d08f04');
+        const response = await axios.get('https://shoti.kenliejugarap.com/getvideo.php?apikey=shoti-0728f9def0586b75c217d3a328dd7d31e0824866827484d94752344fb6ff9587fba5b70ebb0529b133458d29f585ee38d07fdcea39dfbeb168929692718fe545e614aba26e3784fff526193c558137883830ce9de3');
         const data = response.data;
 
         if (data.code === 200 && data.message === "success") {
