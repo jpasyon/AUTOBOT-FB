@@ -15,8 +15,8 @@ module.exports.run = async function ({ api, event }) {
         const response = await axios.get('https://api.popcat.xyz/pickuplines');
 
         if (response.data && response.data.pickupline) {
-            const message = `Rizzler AI:\n[${response.data.pickupline}]`;
-            await api.sendMessage(global.convertToGothic ? global.convertToGothic(message) : message, event.threadID, event.messageID);
+            const message = response.data.pickupline; // Changed format here
+            await api.sendMessage(global.convertToGothic ? global.convertToGothic(`Rizzler AI:\n${message}`) : `Rizzler AI:\n${message}`, event.threadID, event.messageID);
         } else {
             await api.sendMessage(global.convertToGothic ? global.convertToGothic("Failed to fetch a pickup line. Please try again.") : "Failed to fetch a pickup line. Please try again.", event.threadID, event.messageID);
         }
