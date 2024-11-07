@@ -15,7 +15,7 @@ module.exports.run = async function ({ api, event }) {
 
     try {
         // Fetch a random Bible verse from the API
-        const response = await axios.get('https://labs.bible.org/api/?passage=random&type=json');
+        const response = await axios.get('https://joshweb.click/bibles?verse=John%203:16');
 
         if (response.data && response.data[0]) {
             const verse = response.data[0];
