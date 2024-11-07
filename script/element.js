@@ -28,18 +28,38 @@ module.exports.run = async function ({ api, event, args }) {
 
         // Fetch element data from the API
         const res = await axios.get(`https://api.popcat.xyz/periodic-table?element=${encodeURIComponent(elementName)}`);
-        const data = res.data;
 
-        // Send the response with the element information
-        api.sendMessage(
-            `Element Information\n- Name: ${data.name}\n- Symbol: ${data.symbol}\n- Atomic Number: ${data.atomic_number}\n- Atomic Mass: ${data.atomic_mass}\n\nSummary:\n${data.summary}`,
-            threadID,
-            messageID
-        );
+        // Check if the API responded with valid data
+        if (res && res.data) {
+            const data = res.data;
+
+            // If data is valid and contains the element information
+            if (data.name && data.symbol && data.atomic_number && data.atomic_mass) {
+                api.sendMessage(
+                    `Element Information\n- Name: ${data.name}\n- Symbol: ${data.symbol}\n- Atomic Number: ${data.atomic_number}\n- Atomic Mass: ${data.atomic_mass}\n\nSummary:\n${data.summary || "No summary available."}`,
+                    threadID,
+                    messageID
+                );
+            } else {
+                // If the data is incomplete or invalid
+                api.sendMessage(
+                    "Could not retrieve complete information for the provided element. Please check the element name or symbol.",
+                    threadID,
+                    messageID
+                );
+            }
+        } else {
+            // If the API response is empty or invalid
+            api.sendMessage(
+                "No data found for the element. Please check the name or symbol and try again.",
+                threadID,
+                messageID
+            );
+        }
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching element data:', error);
         api.sendMessage(
-            "An error occurred while retrieving the element information. Please check the element name or symbol and try again.",
+            "An error occurred while retrieving the element information. Please try again later.",
             event.threadID,
             event.messageID
         );
