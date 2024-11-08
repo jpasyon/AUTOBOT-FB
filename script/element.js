@@ -26,7 +26,7 @@ module.exports.run = async function ({ api, event, args }) {
         }
 
         // Fetch element data from the provided API
-        const res = await axios.get(`https://periodic-table-api.p.rapidapi.com/search`, {
+        const res = await axios.get(`https://api.popcat.xyz/periodic-table?`, {
             params: { name: elementName }
         });
 
