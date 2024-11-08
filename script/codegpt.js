@@ -8,20 +8,20 @@ module.exports.config = {
     aliases: ['cgpt'],
     description: 'Generate code snippets using CodeGPT',
     usage: 'codegpt [query]',
-    credits: 'Juno', // Updated credits
+    credits: 'Juno',
     cooldown: 3,
 };
 
 module.exports.run = async function({ api, event, args }) {
-    const pangutana = args.join(' ');  
+    const pangutana = args.join(' ');
 
     if (!pangutana) {
         return api.sendMessage('Palihug og provide og code-related nga pangutana.', event.threadID, event.messageID);
     }
 
-    const chilliHotUrl = `https://joshweb.click/api/codegpt?type=code&lang=nodejs?q=${encodeURIComponent(pangutana)}`;
+    const chilliHotUrl = `https://joshweb.click/api/codegpt?type=code&lang=nodejs&q=${encodeURIComponent(pangutana)}`;
 
-    const bayotMessage = await new Promise((resolve, reject) => {  
+    const bayotMessage = await new Promise((resolve, reject) => {
         api.sendMessage({
             body: 'Generating your code snippet...',
         }, event.threadID, (err, info) => {
@@ -31,13 +31,13 @@ module.exports.run = async function({ api, event, args }) {
     });
 
     try {
-        const chilliMansiResponse = await axios.get(chilliHotUrl);  
-        const pogiCode = chilliMansiResponse.data.result; 
+        const chilliMansiResponse = await axios.get(chilliHotUrl);
+        const pogiCode = chilliMansiResponse.data.result;
 
-        // Simplified response format
-        const formattedResponse = `CodeGPT:\n\`\`\`${pogiCode.trim()}\`\`\``; // Includes the required format
+        // Send response in default font without code block formatting
+        const formattedResponse = `CodeGPT:\n${pogiCode.trim()}`;
 
-        await api.editMessage(formattedResponse.trim(), bayotMessage.messageID);
+        await api.editMessage(formattedResponse, bayotMessage.messageID);
 
     } catch (error) {
         console.error('Error:', error);
