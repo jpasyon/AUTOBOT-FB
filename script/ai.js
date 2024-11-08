@@ -42,9 +42,9 @@ module.exports.run = async function ({ api, event, args }) {
         if (response.data && response.data.message) {
             const generatedText = response.data.message;
 
-            // AI Answer with the specified format (no special font formatting)
+            // Send the response with no special formatting (default font)
             api.sendMessage(
-                `Answer:\n${generatedText}`,  // No backticks, no special font formatting
+                `Answer:\n${generatedText}`,  // Just plain text, no bold or formatting
                 event.threadID,
                 messageID,
             );
