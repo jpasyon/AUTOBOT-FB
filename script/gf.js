@@ -15,16 +15,21 @@ module.exports.config = {
 function makeFormal(response) {
     return response
         .replace(/[#@][^\s]+/g, '')  // Remove hashtags and @mentions
-        .replace(/[^\w\s.,?!]/g, '')  // Remove emojis and symbols
+        .replace(/[^\w\s.,?!']/g, '')  // Remove emojis and symbols, but keep apostrophes
         .replace(/\bcutie\b/g, 'there')  // Replace casual words
         .replace(/\bstud muffin\b/g, 'there')
         .replace(/\bum\b/g, 'you')
         .replace(/\bhey\b/gi, 'Hello')
         .replace(/\bfrisky\b/g, 'a bit bold')
         .replace(/\bsexy\b/g, 'appealing')
+        .replace(/\bIve\b/g, 'I\'ve')  // Change 'Ive' to 'I've'
+        .replace(/\bim\b/g, 'I\'m')  // Change 'im' to 'I'm'
+        .replace(/\bits\b/g, 'it\'s')  // Change 'its' to 'it's' when applicable
+        .replace(/\bwhats\b/g, 'what\'s')  // Change 'whats' to 'what\'s'
         .replace(/\.\s+/g, '. ')  // Ensure only one space after a period
         .replace(/\?\s+/g, '? ')  // Ensure only one space after a question mark
-        .replace(/\!\s+/g, '! ');  // Ensure only one space after an exclamation mark
+        .replace(/\!\s+/g, '! ')  // Ensure only one space after an exclamation mark
+        .replace(/\s([.,!?])\s*/g, '$1 ');  // Fix spacing issues with punctuation marks
 }
 
 module.exports.run = async function ({ api, event, args }) {
