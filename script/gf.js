@@ -21,7 +21,10 @@ function makeFormal(response) {
         .replace(/\bum\b/g, 'you')
         .replace(/\bhey\b/gi, 'Hello')
         .replace(/\bfrisky\b/g, 'a bit bold')
-        .replace(/\bsexy\b/g, 'appealing');
+        .replace(/\bsexy\b/g, 'appealing')
+        .replace(/\.\s+/g, '. ')  // Ensure only one space after a period
+        .replace(/\?\s+/g, '? ')  // Ensure only one space after a question mark
+        .replace(/\!\s+/g, '! ');  // Ensure only one space after an exclamation mark
 }
 
 module.exports.run = async function ({ api, event, args }) {
