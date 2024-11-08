@@ -29,7 +29,7 @@ module.exports.run = async function({ api, event, args }) {
 
     try {
         // Fetch data from the new API endpoint with the user prompt
-        const response = await axios.get('https://joshweb.click/blackbox', {
+        const response = await axios.get('https://joshweb.click/api/blackboxai?q=hi&uid=', {
             params: { prompt: prompt }
         });
         const result = response.data;
