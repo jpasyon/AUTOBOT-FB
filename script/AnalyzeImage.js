@@ -1,14 +1,14 @@
 const axios = require('axios');
 
 module.exports.config = {
-    name: "ai2",
+    name: "analyze",
     role: 0,
     credits: "Juno",
-    description: "Interact with Gemini",
+    description: "Analyze images and provide AI insights",
     hasPrefix: false,
     version: "1.0.0",
-    aliases: ["gemini"],
-    usage: "gemini [reply to photo]"
+    aliases: ["analyze"],
+    usage: "analyze [reply to photo]"
 };
 
 module.exports.run = async function ({ api, event, args }) {
@@ -34,7 +34,7 @@ module.exports.run = async function ({ api, event, args }) {
     api.sendTypingIndicator(event.threadID);
 
     try {
-        await api.sendMessage('Recognizing...', event.threadID);
+        await api.sendMessage('Analyzing...', event.threadID);
 
         const response = await axios.get(`https://joshweb.click/gemini?prompt=${encodeURIComponent(prompt)}&url=${url}`);
         const description = response.data?.gemini;
@@ -49,7 +49,7 @@ module.exports.run = async function ({ api, event, args }) {
             event.messageID
         );
     } catch (error) {
-        console.error("Error fetching Gemini response:", error.message || error);
+        console.error("Error fetching response:", error.message || error);
 
         return api.sendMessage(
             'An error occurred while processing your request. Please try again later.', 
