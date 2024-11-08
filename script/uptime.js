@@ -20,38 +20,29 @@ function byte2mb(bytes) {
 }
 
 module.exports.run = async ({ api, event }) => {
-    try {
-        const time = process.uptime();
-        const hours = Math.floor(time / 3600);
-        const minutes = Math.floor((time % 3600) / 60);
-        const seconds = Math.floor(time % 60);
+    const time = process.uptime();
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = Math.floor(time % 60);
 
-        const usage = await pidusage(process.pid);
+    const usage = await pidusage(process.pid);
+    const osInfo = {
+        platform: os.platform(),
+        architecture: os.arch()
+    };
 
-        const osInfo = {
-            platform: os.platform(),
-            architecture: os.arch()
-        };
-
-        const timeStart = Date.now();
-        const ping = Date.now() - timeStart;
-
-        const returnResult = `Response:
+    const timeStart = Date.now();
+    const returnResult = `Response:
 Hello Master! Juno, I am still alive for about:
 ${hours} hour(s)
 ${minutes} minute(s)
 ${seconds} second(s).
-
-CPU Usage: ${usage.cpu.toFixed(1)}%
+CPU Usage: ${usage.cpu.toFixed(1)}% 
 RAM Usage: ${byte2mb(usage.memory)}
 Cores: ${os.cpus().length}
-Ping: ${ping}ms
+Ping: ${Date.now() - timeStart}ms
 Operating System Platform: ${osInfo.platform}
 System CPU Architecture: ${osInfo.architecture}`;
 
-        return api.sendMessage(returnResult, event.threadID, event.messageID);
-    } catch (error) {
-        console.error('Error while fetching uptime:', error);
-        return api.sendMessage("Oops! Something went wrong while fetching uptime.", event.threadID, event.messageID);
-    }
+    return api.sendMessage(returnResult, event.threadID, event.messageID);
 };
