@@ -2,14 +2,14 @@ const os = require('os');
 const pidusage = require('pidusage');
 
 module.exports.config = {
-		name: "monitor",
+		name: "uptime",
 		version: "1.0.2",
 		role: 0,
 		credits: "Juno",
 		description: "uptime",
 		hasPrefix: true,
 		cooldowns: 5,
-		aliases: ["monitor"]
+		aliases: ["uptime"]
 };
 
 function byte2mb(bytes) {
