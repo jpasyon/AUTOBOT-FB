@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 module.exports.config = {
     name: "element",
     version: "1.0.0",
@@ -11,10 +13,7 @@ module.exports.config = {
 
 module.exports.run = async function ({ api, event, args }) {
     try {
-        const axios = require('axios');
         const { threadID, messageID } = event;
-
-        // Join arguments to form the element name or symbol
         const elementName = args.join(" ");
 
         // If no element name is provided, send an error message
@@ -26,17 +25,19 @@ module.exports.run = async function ({ api, event, args }) {
             );
         }
 
-        // Fetch element data from the API
-        const res = await axios.get(`https://api.popcat.xyz/periodic-table?element=${encodeURIComponent(elementName)}`);
+        // Fetch element data from the provided API
+        const res = await axios.get(`https://periodic-table-api.p.rapidapi.com/search`, {
+            params: { name: elementName }
+        });
 
         // Check if the API responded with valid data
-        if (res && res.data) {
-            const data = res.data;
+        if (res && res.data && res.data[0]) {
+            const data = res.data[0];
 
             // If data is valid and contains the element information
             if (data.name && data.symbol && data.atomic_number && data.atomic_mass) {
                 api.sendMessage(
-                    `Element Information\n- Name: ${data.name}\n- Symbol: ${data.symbol}\n- Atomic Number: ${data.atomic_number}\n- Atomic Mass: ${data.atomic_mass}\n\nSummary:\n${data.summary || "No summary available."}`,
+                    `Element Information:\n- Name: ${data.name}\n- Symbol: ${data.symbol}\n- Atomic Number: ${data.atomic_number}\n- Atomic Mass: ${data.atomic_mass}\n\nSummary:\n${data.summary || "No summary available."}`,
                     threadID,
                     messageID
                 );
