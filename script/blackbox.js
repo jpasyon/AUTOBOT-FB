@@ -24,12 +24,13 @@ module.exports.run = async function({ api, event, args }) {
         api.sendMessage('Searching, please wait...', event.threadID, (err, info) => {
             if (err) return reject(err);
             resolve(info);
-        }, event.messageID); // Make it a reply to the user's message
+        }, event.messageID);
     });
 
     try {
-        const response = await axios.get('https://api.kenliejugarap.com/blackbox/?text=${content}', {
-            params: { query: prompt }
+        // Fetch data from the new API endpoint with the user prompt
+        const response = await axios.get('https://joshweb.click/blackbox', {
+            params: { prompt: prompt }
         });
         const result = response.data;
         const responseString = result.data ? result.data : 'No result found.';
