@@ -39,8 +39,8 @@ module.exports["run"] = async ({ api, event, args }) => {
 
     let filePath;
     try {
-        // Request music data from the custom API
-        const response = await axios.get(`https://rest-api-production-5054.up.railway.app/soundcloud?query=${encodeURIComponent(musicName)}`, {
+        // Request music data from the new API
+        const response = await axios.get(`https://joshweb.click/api/scsearch?q=${encodeURIComponent(musicName)}`, {
             headers: {
                 'User-Agent': userAgents[Math.floor(Math.random() * userAgents.length)]
             }
