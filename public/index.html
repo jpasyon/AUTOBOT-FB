@@ -1,27 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorry.</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        h1 {
-            font-size: 24px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Wait, fix ko muna mga API. Balik ko mamayang 8pm may practice kasi kami sayaw eh.</h1>
+    <div class="container">
+        <center><h5><b>AUTOBOT FB</b></h5></center>
+        <form id="json-form" onsubmit="submitForm(event)">
+            <div class="row">
+                <div class="col-md-12">
+                    <textarea id="json-data" class="form-control centered-textarea center-placeholder" placeholder="ENTER YOUR APPSTATE HERE"></textarea>
+                </div>
+            </div>
+        </form>
+        <div class="container" id="listOfCommands">
+            <center><h1 style="font-size: 16px; padding: 10px;">Select Commands</h1>
+            <button class="btn btn-primary" onclick="selectAllCommands()">Select all commands</button></center>
+        </div>
+        <div class="container" id="listOfCommandsEvent">
+            <center><h1 style="font-size: 16px; padding: 10px;">Select Events</h1>
+            <button class="btn btn-primary" onclick="selectAllEvents()">Select all events</button></center>
+        </div>
+        <div class="container" id="prefixOfCommands">
+            <h1 style="font-size: 16px; padding: 10px;">Please provide a prefix (optional). If you choose not to, entering 'non-prefix' will be considered as your input</h1>
+            <input type="text" id="inputOfPrefix" class="form-control">
+        </div>
+        <div class="container" id="adminOfCommands">
+            <h1 style="font-size: 16px; padding: 10px;">Please provide an uid (optional). If you choose not to, entering 'default' will be considered as your input</h1>
+            <input type="text" id="inputOfAdmin" class="form-control">
+        </div>
+        <label style="font-size: 14px; display: flex; align-items: center; padding: 22px;">
+        <input type="checkbox" id="agreeCheckbox" style="margin-right: 10px;">I have read and agreed to the Terms and Conditions. </label>
+        <div class="col text-center">
+            <button class="btn btn-primary" onclick="State()" disabled id="submitButton" style="width: 100%">Submit</button>
+            <br>
+            <br>
+            <button class="btn btn-primary" onclick="window.location.href='/online.html'"  style="width: 100%">View Online Users</button>
+        </div>
+    </div>
+    <div id="result" class="container text-center" style="display: none;"></div>
+    <div class="footer">
+        © 2021 Juno Delos Santos. All rights reserved.
+        <p>Time: <span id="time"></span></p>
+        <p>Ping: <span id="ping"></span></p>
+    </div>
+    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </body>
 </html>
