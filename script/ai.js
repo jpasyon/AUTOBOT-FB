@@ -13,49 +13,55 @@ module.exports.config = {
 
 module.exports.run = async function ({ api, event, args }) {
     try {
-        const { messageID, messageReply } = event;
+        const { messageID, messageReply, threadID, senderID } = event;
         let prompt = args.join(" ");
 
         // Include replied message in the prompt if it exists
-        if (messageReply) {
+        if (messageReply && messageReply.body) {
             const repliedMessage = messageReply.body;
             prompt = `${repliedMessage} ${prompt}`;
         }
 
         // If no prompt is provided, send a help message
-        if (!prompt) {
+        if (!prompt.trim()) {
             return api.sendMessage(
                 `Please provide a prompt to get a response.`,
-                event.threadID,
-                messageID,
+                threadID,
+                messageID
             );
         }
 
         // Delay
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Adjust the delay time as needed
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // New API URL
-        const apiUrl = `https://rest-api-production-5054.up.railway.app/ai?prompt=${encodeURIComponent(prompt)}&uid=${event.senderID}`;
+        // API URL
+        const apiUrl = `https://rest-api-production-5054.up.railway.app/ai?prompt=${encodeURIComponent(prompt)}&uid=${senderID}`;
 
         const response = await axios.get(apiUrl);
 
         if (response.data && response.data.message) {
             const generatedText = response.data.message;
 
-            // Send the response with no special formatting (default font)
+            // Send the response with the correct format
             api.sendMessage(
-                `Answer:\n${generatedText}`,  // Just plain text, no bold or formatting
-                event.threadID,
-                messageID,
+                `Answer:\n${generatedText}`, // No parentheses around the generated text
+                threadID,
+                messageID
+            );
+        } else {
+            api.sendMessage(
+                `The response from the server is empty. Please try again later.`,
+                threadID,
+                messageID
             );
         }
     } catch (error) {
-        // Error handling
+        // Error handling with clear message
         console.error(error);
         api.sendMessage(
             `An error occurred while processing your request. Please try again later.`,
             event.threadID,
-            messageID,
+            messageID
         );
     }
 };
