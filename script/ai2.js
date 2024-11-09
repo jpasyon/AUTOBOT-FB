@@ -43,9 +43,9 @@ module.exports.run = async function ({ api, event, args }) {
             throw new Error("No description found in the API response.");
         }
 
-        // Send the response with only default font (no formatting)
+        // Format the response as required
         return api.sendMessage(
-            `Answer: ${description}`,  // No bold, no code blocks, just plain text
+            `Answer:\n${description}`,  // Ensures the response is formatted as "Answer:\nanswer here"
             event.threadID, 
             event.messageID
         );
