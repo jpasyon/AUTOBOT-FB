@@ -7,6 +7,27 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Basic styles for the popup */
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+            z-index: 1000; /* Sit on top */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        .popup-content {
+            background-color: white; /* White background */
+            padding: 20px; /* Some padding */
+            border-radius: 5px; /* Rounded corners */
+            text-align: center; /* Centered text */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -44,6 +65,15 @@
         </div>
     </div>
     <div id="result" class="container text-center" style="display: none;"></div>
+    
+    <!-- Popup -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <p>Hey, if your bot suddenly went off, I'm just adding some cmd or changing some API, or maybe there's a problem in your account. Sorry for the inconvenience. <br>Thank you so much for understanding. </p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
     <div class="footer">
         © 2021 Juno Delos Santos. All rights reserved.
         <p>Time: <span id="time"></span></p>
@@ -54,5 +84,17 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+        // Show the popup when the page loads
+        window.onload = function() {
+            showPopup();
+        };
+        function showPopup() {
+            document.getElementById('popup').style.display = 'flex';
+        }
+    </script>
 </body>
 </html>
