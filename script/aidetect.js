@@ -8,7 +8,7 @@ module.exports.config = {
     description: "AI detection",
     usePrefix: false,
     commandCategory: "AI Detection",
-    cooldowns: 5,
+    cooldowns: 3,
 };
 
 module.exports.run = async function ({ api, event, args }) {
