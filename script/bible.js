@@ -15,7 +15,7 @@ module.exports.run = async function ({ api, event }) {
 
     try {
         // Fetch a random Bible verse from the API
-        const response = await axios.get('https://joshweb.click/bible');
+        const response = await axios.get('https://jonellprojectccapisexplorer.onrender.com/api/randomverse');
 
         if (response.data && response.data[0]) {
             const verse = response.data[0];
