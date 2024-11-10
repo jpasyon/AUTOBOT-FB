@@ -35,7 +35,7 @@ module.exports.run = async function ({ api, event, args }) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // API URL
-        const apiUrl = `https://rest-api-production-5054.up.railway.app/ai?prompt=${encodeURIComponent(prompt)}&uid=${senderID}`;
+        const apiUrl = `https://markdevs-last-api-2epw.onrender.com/api/v2/gpt4?query=${encodeURIComponent(prompt)}&uid=${senderID}`;
 
         const response = await axios.get(apiUrl);
 
