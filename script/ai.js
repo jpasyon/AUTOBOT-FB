@@ -35,7 +35,7 @@ module.exports.run = async function ({ api, event, args }) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // API URL
-        const apiUrl = `https://haji-mix.onrender.com/ai?prompt=${encodeURIComponent(prompt)}&uid=${senderID}`;
+        const apiUrl = `https://haji-mix.onrender.com/gpt4om?prompt=${encodeURIComponent(prompt)}&uid=${senderID}`;
 
         const response = await axios.get(apiUrl);
 
