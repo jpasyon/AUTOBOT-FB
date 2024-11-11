@@ -17,7 +17,7 @@ module.exports.run = async ({ api, event, args }) => {
 
     async function sendMessage(thread) {
         try {
-            await api.sendMessage(`Notification from Admin:\n${custom}`, thread.threadID);
+            await api.sendMessage(`Notification from Admin:\n\n${custom}`, thread.threadID);
             sentCount++;
         } catch (error) {
             console.error("Error sending a message:", error);
