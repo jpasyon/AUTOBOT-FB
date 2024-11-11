@@ -1,16 +1,13 @@
 const os = require('os');
 const pidusage = require('pidusage');
 
-// Track the bot's start time globally
-const startTime = Date.now();
-
 module.exports.config = {
     name: "uptime",
     version: "1.0.2",
     role: 0,
     credits: "Juno",
-    description: "uptime",
-    hasPrefix: false,  // No prefix required
+    description: "View bot's uptime with performance stats",
+    hasPrefix: false, // Remove prefix
     cooldowns: 5,
     aliases: ["uptime"]
 };
@@ -23,14 +20,13 @@ function byte2mb(bytes) {
 }
 
 module.exports.run = async ({ api, event }) => {
-    // Get the bot's uptime since launch
-    const uptime = Date.now() - startTime;
+    const time = process.uptime();
 
-    // Calculate days, hours, minutes, and seconds
-    const days = Math.floor(uptime / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((uptime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((uptime % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((uptime % (1000 * 60)) / 1000);
+    // Convert uptime to days, hours, minutes, and seconds
+    const days = Math.floor(time / (24 * 3600));
+    const hours = Math.floor((time % (24 * 3600)) / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = Math.floor(time % 60);
 
     const usage = await pidusage(process.pid);
     const osInfo = {
@@ -39,7 +35,8 @@ module.exports.run = async ({ api, event }) => {
     };
 
     const timeStart = Date.now();
-    const returnResult = `Response:
+    const returnResult = `
+Response:
 Hello Master! Juno, I am still alive for about:
 ${days} day(s)
 ${hours} hour(s)
@@ -50,7 +47,8 @@ RAM Usage: ${byte2mb(usage.memory)}
 Cores: ${os.cpus().length}
 Ping: ${Date.now() - timeStart}ms
 Operating System Platform: ${osInfo.platform}
-System CPU Architecture: ${osInfo.architecture}`;
+System CPU Architecture: ${osInfo.architecture}
+`;
 
     return api.sendMessage(returnResult, event.threadID, event.messageID);
 };
