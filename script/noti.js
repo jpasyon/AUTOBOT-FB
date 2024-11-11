@@ -1,9 +1,9 @@
 module.exports.config = {
-    name: "noti", // Command name is "noti"
+    name: "noti",
     version: "1.0.0",
-    role: 1, // Admin-only role
+    role: 1,
     credits: "Juno",
-    description: "Sends a notification message to all groups, only usable by the admin.",
+    description: "Sends a message to all groups and can only be done by the admin.",
     usePrefix: false, // No prefix required
     commandCategory: "noti",
     usages: "[Text]",
@@ -11,16 +11,9 @@ module.exports.config = {
 };
 
 module.exports.run = async ({ api, event, args }) => {
-    const threadInfo = await api.getThreadInfo(event.threadID);
-    const isAdmin = threadInfo.adminIDs.includes(event.senderID); // Check if the user is an admin in the group
-
-    if (!isAdmin) {
-        return api.sendMessage("You do not have permission to use this command.", event.threadID);
-    }
-
     const threadList = await api.getThreadList(25, null, ['INBOX']);
     let sentCount = 0;
-    const custom = args.join(' '); // The custom message (prompt) provided by the admin
+    const custom = args.join(' ');
 
     async function sendMessage(thread) {
         try {
@@ -41,7 +34,7 @@ module.exports.run = async ({ api, event, args }) => {
     }
 
     if (sentCount > 0) {
-        api.sendMessage(`Notification from Admin:\n› Sent the notification successfully.`, event.threadID);
+        api.sendMessage("Notification from Admin:\n› Sent the notification successfully.", event.threadID);
     } else {
         api.sendMessage("› No eligible group threads found to send the message to.", event.threadID);
     }
