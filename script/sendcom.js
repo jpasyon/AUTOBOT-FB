@@ -5,7 +5,7 @@ module.exports.config = {
     usedby: 4,
     info: 'Send a comment on a post using the bot',
     onPrefix: true,
-    dev: 'Jonell Magallanes',
+    dev: 'Juno', //Update credits
     cooldowns: 5,
     description: 'Send a comment to a Facebook post',
     usage: 'sendcom [URL] [comment]',
