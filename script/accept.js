@@ -5,32 +5,34 @@ let autoAccept = true;
 module.exports.config = {
   name: "accept",
   version: "1.0.0",
-  hasPermssion: 2,
-  credits: "Juno",
+  role: 1,
+  credits: "Juno", // Credits updated to Juno
   description: "Make friends via Facebook ID",
   commandCategory: "admin",
   usages: "uid",
-  cooldowns: 0
+  cooldowns: 0,
+  usePrefix: false // Prefix set to false
 };
 
 module.exports.run = async ({ event, api }) => {
   const form = {
-    av: api.getCurrentUser ID(),
+    av: api.getCurrentUserID(),
     fb_api_req_friendly_name: "FriendingCometFriendRequestsRootQueryRelayPreloader",
     fb_api_caller_class: "RelayModern",
     doc_id: "4499164963466303",
     variables: JSON.stringify({ input: { scale: 3 } })
   };
+
   const listRequest = JSON.parse(await api.httpPost("https://www.facebook.com/api/graphql/", form)).data.viewer.friending_possibilities.edges;
 
   const args = event.body.split(" ");
   if (args.length >= 2) {
     if (args[1].toLowerCase() === "on") {
       autoAccept = true;
-      return api.sendMessage("Auto-accept is now turned on.\nReply 'UNSEND' to remove the AI's response.\nThese commands are for admin only!\nContact AI owner: https://www.facebook.com/geotechph.net", event.threadID);
+      return api.sendMessage("Auto-accept is now turned on.", event.threadID); // On message
     } else if (args[1].toLowerCase() === "off") {
       autoAccept = false;
-      return api.sendMessage("Auto-accept is now turned off.\nReply 'UNSEND' to remove the AI's response.\nThese commands are for admin only!\nContact AI owner: https://www.facebook.com/geotechph.net", event.threadID);
+      return api.sendMessage("Auto-accept is now turned off.", event.threadID); // Off message
     }
   }
 
@@ -58,8 +60,8 @@ module.exports.run = async ({ event, api }) => {
       form.variables = JSON.parse(form.variables);
     }
 
-    api.sendMessage(`Auto-accepted ${success.length} friend requests:\n${success.join("\n")}${failed.length > 0 ? `\nFailed to accept with ${failed.length} person: ${failed.join("\n")}` : ""}\nReply 'UNSEND' to remove the AI's response.\nThese commands are for admin only!\nContact AI owner: https://www.facebook.com/geotechph.net`, event.threadID);
+    api.sendMessage(`Auto-accepted ${success.length} friend requests:\n${success.join("\n")}${failed.length > 0 ? `\nFailed to accept with ${failed.length} person: ${failed.join("\n")}` : ""}`, event.threadID);
   } else {
-    api.sendMessage("Auto-accept is currently turned off.\nReply 'UNSEND' to remove the AI's response.\nThese commands are for admin only!\nContact AI owner: https://www.facebook.com/geotechph.net", event.threadID);
+    api.sendMessage("Auto-accept is currently turned off.", event.threadID);
   }
 };
