@@ -1,8 +1,8 @@
 module.exports.config = {
     name: "sendmsg",
-    version: "1.0.8",  // Updated version
+    version: "1.1.0",  // Updated version
     hasPermission: 2,
-    credits: "Juno",  // Updated credits
+    credits: "Juno",
     description: "Send a message to a user by their user ID",
     commandCategory: "admin",
     usages: "ID [Text]",
@@ -10,7 +10,7 @@ module.exports.config = {
 };
 
 module.exports.run = async ({ api, event, args }) => {
-    // Check if the user has provided a valid user ID and message
+    // Check if the user provided a valid user ID and message
     if (args.length < 2) {
         return api.sendMessage(
             "Syntax error, use: sendmsg [ID_BOX] [message]",
@@ -21,10 +21,19 @@ module.exports.run = async ({ api, event, args }) => {
 
     // Get the user ID (the first argument) and the message (remaining arguments)
     const idbox = args[0];
-    const reason = args.slice(1).join(" "); // Join the rest as the message
+    const reason = args.slice(1).join(" ");
+
+    // Validate that the user ID is a number and has a realistic length for Facebook IDs
+    if (!/^\d+$/.test(idbox) || idbox.length < 10) {
+        return api.sendMessage(
+            "Invalid user ID format. Please provide a valid numeric Facebook ID.",
+            event.threadID,
+            event.messageID
+        );
+    }
 
     try {
-        // Send the message to the specified user ID (only the message appears in their chat)
+        // Attempt to send the message to the specified user ID
         await api.sendMessage(reason, idbox);
 
         // Notify the admin that the message has been sent successfully
@@ -34,10 +43,20 @@ module.exports.run = async ({ api, event, args }) => {
             event.messageID
         );
     } catch (error) {
-        // If there is an error (e.g., invalid user ID or network issues), send an error message
-        console.error(error);
+        // Log detailed error information
+        console.error("Error sending message: ", error);
+
+        // Send a user-friendly error message back to the admin
+        let errorMessage = "An error occurred while trying to send the message.";
+        
+        if (error.error === 10) {
+            errorMessage += " This might be due to Facebook's permissions. Make sure the bot is authorized to message this user.";
+        } else if (error.error === 368) {
+            errorMessage += " Your bot is temporarily restricted from sending messages. Try again later.";
+        }
+
         api.sendMessage(
-            "An error occurred while trying to send the message. Please check the user ID or try again later.",
+            errorMessage,
             event.threadID,
             event.messageID
         );
