@@ -7,13 +7,22 @@ module.exports.config = {
     credits: "Juno",
     description: "Fetch a response from Ashley",
     hasPrefix: true,
-    aliases: ["ash"],
+    aliases: ["ash"], // You can leave aliases here if you want them for other purposes
     usage: "[ashley <query>]",
     cooldown: 5,
 };
 
 module.exports.run = async function ({ api, event, args }) {
     try {
+        // Ensure the command is exactly "ashley" (case-insensitive)
+        const command = event.body.trim().split(' ')[0].toLowerCase();
+
+        // Only respond to the "ashley" command, not "ash" or other aliases
+        if (command !== "ashley") {
+            return; // No response for commands other than "ashley"
+        }
+
+        // Check if there is a query
         if (args.length === 0) {
             api.sendMessage("Please provide a query: ex: ashley subo moto.", event.threadID, event.messageID);
             return;
