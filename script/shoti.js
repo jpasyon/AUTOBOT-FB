@@ -7,7 +7,7 @@ module.exports.config = {
   commandCategory: "Entertainment",
   usages: "[]",
   cooldowns: 5,
-  usePrefix: true,
+  usePrefix: false,
   dependencies: {}
 };
 
