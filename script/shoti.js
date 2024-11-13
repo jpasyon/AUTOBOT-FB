@@ -1,61 +1,62 @@
-const axios = require('axios');
-
 module.exports.config = {
-    name: "shoti",
-    version: "1.0.0",
-    hasPermission: 0,
-    description: "random video from Shoti API By Lib API",
-    usePrefix: true,
-    credits: "Juno",
-    cooldowns: 10,
-    commandCategory: "Media",
+  name: "shoti",
+  version: "1.0.0",
+  hasPermission: 0,
+  credits: "libyzxy0",
+  description: "Generate a random shoti TikTok video.",
+  commandCategory: "Entertainment",
+  usages: "[]",
+  cooldowns: 5,
+  usePrefix: true,
+  dependencies: {}
 };
 
-module.exports.run = async function ({ api, event }) {
-    try {
-        // Inform user that the bot is fetching the video
-        const sending = await api.sendMessage("Sending Shoti Video. Please wait...", event.threadID, event.messageID);
-        
-        // Fetch video information from the API
-        const response = await axios.get('https://betadash-shoti-yazky.vercel.app/shotizxx?apikey=shipazu');
-        const data = response.data;
+module.exports.run = async ({ api, event, args }) => {
+  const { messageID, threadID } = event;
+  const fs = require("fs");
+  const axios = require("axios");
+  const request = require("request");
 
-        // Check for a successful response
-        if (data.code === 200 && data.message === "success") {
-            const videoInfo = data.data;
-            const { url, title, user, duration } = videoInfo;
-            const { username, nickname } = user;
+  // Show message "Sending Shoti Video. Please wait..."
+  api.sendMessage("Sending Shoti Video. Please wait...", threadID, messageID);
+  api.sendTypingIndicator(threadID, true);
 
-            // Fetch the video stream
-            const videoResponse = await axios({
-                url: url,
-                method: 'GET',
-                responseType: 'stream'
-            });
+  // Check if no arguments are provided
+  if (!args.length) {
+    api.sendMessage("Downloading a random shoti TikTok video...", threadID, messageID);
+  }
 
-            if (videoResponse && videoResponse.data) {
-                // Remove the loading message
-                api.unsendMessage(sending.messageID);
+  try {
+    // Send GET request to the API for video
+    const response = await axios.get(`https://shoti.kenliejugarap.com/getvideo.php?apikey=your-api-key-here`);
 
-                // Send video with information and URL
-                const message = `Title: ${title}\nDuration: ${duration}\nUser: ${nickname} (@${username})\nLink: ${url}`;
+    if (response.data.status) {
+      const { title, tiktokUrl, videoDownloadLink } = response.data;
 
-                api.sendMessage({
-                    body: message,
-                    attachment: videoResponse.data  
-                }, event.threadID, event.messageID);
-            } else {
-                throw new Error("Video stream not available.");
-            }
+      // Path to save the downloaded video
+      const path = __dirname + `/cache/shoti/shoti.mp4`;
+      const file = fs.createWriteStream(path);
+      const rqs = request(encodeURI(videoDownloadLink));
+      rqs.pipe(file);
 
-        } else {
-            // Inform the user if there's an issue fetching video data
-            api.sendMessage(data.message || "Failed to fetch video data.", event.threadID, event.messageID);
-        }
+      // Once the download is complete
+      file.on('finish', () => {
+        setTimeout(function() {
+          // Send the video with the details
+          return api.sendMessage({
+            body: `Here is your Shoti video!\n\nTitle: ${title}\nTiktok URL: ${tiktokUrl}`,
+            attachment: fs.createReadStream(path)
+          }, threadID);
+        }, 1000);
+      });
 
-    } catch (error) {
-        // Error handling
-        console.error('Error fetching video:', error);
-        api.sendMessage("An error occurred while trying to send the video. Please try again later.", event.threadID, event.messageID);
+      file.on('error', (err) => {
+        api.sendMessage(`Error: ${err}`, threadID, messageID);
+      });
+    } else {
+      api.sendMessage("Failed to fetch a shoti video. Please try again later.", threadID, messageID);
     }
+  } catch (err) {
+    api.sendMessage(`Error: ${err.message}`, threadID, messageID);
+  }
 };
