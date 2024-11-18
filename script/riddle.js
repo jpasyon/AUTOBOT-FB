@@ -12,9 +12,33 @@ module.exports.config = {
 
 module.exports.run = async function ({ api, event }) {
     try {
-        const response = await axios.get('https://jonellprojectccapisexplorer.onrender.com/api/randomriddle');
+        // API URL for random riddle
+        const apiUrl = 'https://jonellprojectccapisexplorer.onrender.com/api/randomriddle';
 
-        if (response.data && response.data.question && response.data.answer) {
+        // Try API call with a retry mechanism in case of failure
+        let attempts = 0;
+        let response;
+        while (attempts < 3) {
+            try {
+                response = await axios.get(apiUrl);
+                if (response.data && response.data.question && response.data.answer) {
+                    break; // Successfully got a riddle, exit the loop
+                }
+            } catch (error) {
+                attempts++;
+                if (attempts >= 3) {
+                    console.error('Error fetching riddle:', error);
+                    return api.sendMessage(
+                        global.convertToGothic ? global.convertToGothic("Sorry, something went wrong while fetching a riddle. Please try again later.") : "Sorry, something went wrong while fetching a riddle. Please try again later.",
+                        event.threadID,
+                        event.messageID
+                    );
+                }
+                await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait before retrying
+            }
+        }
+
+        if (response && response.data && response.data.question && response.data.answer) {
             const question = response.data.question;
             const answer = response.data.answer;
             const message = `Random Riddle AI:\n${question}\nAnswer: ${answer}`;
