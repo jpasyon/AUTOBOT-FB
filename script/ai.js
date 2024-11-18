@@ -4,7 +4,7 @@ module.exports.config = {
     name: "ai",
     version: "1.0.0",
     hasPermission: 0,
-    credits: "Juno", // Updated credits
+    credits: "Juno",
     description: "GPT architecture",
     usePrefix: false,
     commandCategory: "GPT4",
@@ -19,13 +19,13 @@ module.exports.run = async function ({ api, event, args }) {
         // Include replied message in the prompt if it exists
         if (messageReply && messageReply.body) {
             const repliedMessage = messageReply.body;
-            prompt = ${repliedMessage} ${prompt};
+            prompt = `${repliedMessage} ${prompt}`;
         }
 
         // If no prompt is provided, send a help message
         if (!prompt.trim()) {
             return api.sendMessage(
-                Please provide a prompt to get a response.,
+                "Please provide a prompt to get a response.",
                 threadID,
                 messageID
             );
@@ -34,8 +34,8 @@ module.exports.run = async function ({ api, event, args }) {
         // Delay
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // API URL
-        const apiUrl = https://haji-mix.onrender.com/gpt4om?prompt=${encodeURIComponent(prompt)}&uid=${senderID};
+        // API URL with updated format
+        const apiUrl = `https://haji-mix.onrender.com/gpt4om?prompt=${encodeURIComponent(prompt)}`;
 
         const response = await axios.get(apiUrl);
 
@@ -44,13 +44,13 @@ module.exports.run = async function ({ api, event, args }) {
 
             // Send the response with the correct format
             api.sendMessage(
-                Answer:\n${generatedText}, // No parentheses around the generated text
+                `Answer:\n${generatedText}`,
                 threadID,
                 messageID
             );
         } else {
             api.sendMessage(
-                The response from the server is empty. Please try again later.,
+                "The response from the server is empty. Please try again later.",
                 threadID,
                 messageID
             );
@@ -59,7 +59,7 @@ module.exports.run = async function ({ api, event, args }) {
         // Error handling with clear message
         console.error(error);
         api.sendMessage(
-            An error occurred while processing your request. Please try again later.,
+            "An error occurred while processing your request. Please try again later.",
             event.threadID,
             messageID
         );
