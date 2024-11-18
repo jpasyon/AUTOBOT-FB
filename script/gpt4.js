@@ -38,9 +38,30 @@ module.exports.run = async function ({ api, event, args }) {
         // API URL
         const apiUrl = `https://api.y2pheq.me/gpt4?prompt=${encodeURIComponent(prompt)}`;
 
-        const response = await axios.get(apiUrl);
+        // Try API call with a retry mechanism in case of failure
+        let attempts = 0;
+        let response;
+        while (attempts < 3) {
+            try {
+                response = await axios.get(apiUrl);
+                if (response.data && response.data.result) {
+                    break; // Successfully got a result, exit the loop
+                }
+            } catch (error) {
+                attempts++;
+                if (attempts >= 3) {
+                    console.error(error);
+                    return api.sendMessage(
+                        `An error occurred while communicating with the GPT-4 API. Please try again later.`,
+                        threadID,
+                        messageID
+                    );
+                }
+                await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait before retrying
+            }
+        }
 
-        if (response.data && response.data.result) {
+        if (response && response.data && response.data.result) {
             const generatedText = response.data.result;
 
             // Send the response in the specified format
