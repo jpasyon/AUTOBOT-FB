@@ -35,16 +35,16 @@ module.exports.run = async function ({ api, event, args }) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // API URL
-        const apiUrl = `https://haji-mix.onrender.com/gpt4om?prompt=${encodeURIComponent(prompt)}&uid=${senderID}`;
+        const apiUrl = `https://api.y2pheq.me/gpt4?prompt=${encodeURIComponent(prompt)}`;
 
         const response = await axios.get(apiUrl);
 
-        if (response.data && response.data.message) {
-            const generatedText = response.data.message;
+        if (response.data && response.data.result) {
+            const generatedText = response.data.result;
 
-            // Send the response with the correct format
+            // Send the response in the specified format
             api.sendMessage(
-                `Answer:\n${generatedText}`, // No parentheses around the generated text
+                `Answer GPT 4 Conversational:\n${generatedText}.\n\nType 'clear' to delete the conversation history.`,
                 threadID,
                 messageID
             );
@@ -60,7 +60,7 @@ module.exports.run = async function ({ api, event, args }) {
         console.error(error);
         api.sendMessage(
             `An error occurred while processing your request. Please try again later.`,
-            event.threadID,
+            threadID,
             messageID
         );
     }
