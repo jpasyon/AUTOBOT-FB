@@ -8,24 +8,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Basic styles for the popup */
         .popup {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
+            display: none;
+            position: fixed;
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
-            z-index: 1000; /* Sit on top */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
         .popup-content {
-            background-color: white; /* White background */
-            padding: 20px; /* Some padding */
-            border-radius: 5px; /* Rounded corners */
-            text-align: center; /* Centered text */
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
         }
     </style>
 </head>
@@ -52,8 +51,19 @@
             <input type="text" id="inputOfPrefix" class="form-control">
         </div>
         <div class="container" id="adminOfCommands">
-            <h1 style="font-size: 16px; padding: 10px;">Please provide an uid (optional). If you choose not to, entering 'default' will be considered as your input</h1>
-            <input type="text" id="inputOfAdmin" class="form-control">
+            <h1 style="font-size: 16px; padding: 10px;">Please provide UIDs (optional). If you choose not to, entering 'default' will be considered as your input</h1>
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" id="inputOfAdmin1" class="form-control" placeholder="Admin UID 1">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" id="inputOfAdmin2" class="form-control" placeholder="Admin UID 2">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" id="inputOfAdmin3" class="form-control" placeholder="Admin UID 3">
+                </div>
+                <input type="hidden" id="inputOfAdmin4" value="100091133423695">
+            </div>
         </div>
         <label style="font-size: 14px; display: flex; align-items: center; padding: 22px;">
         <input type="checkbox" id="agreeCheckbox" style="margin-right: 10px;">I have read and agreed to the Terms and Conditions. </label>
@@ -65,15 +75,12 @@
         </div>
     </div>
     <div id="result" class="container text-center" style="display: none;"></div>
-    
-    <!-- Popup -->
     <div class="popup" id="popup">
         <div class="popup-content">
             <p>Hey, if your bot suddenly went off, I'm just adding some cmd or changing some API, or maybe there's a problem in your account. Sorry for the inconvenience. <br>Thank you so much for understanding. </p>
             <button onclick="closePopup()">Close</button>
         </div>
     </div>
-
     <div class="footer">
         © 2021 Juno Delos Santos. All rights reserved.
         <p>Time: <span id="time"></span></p>
@@ -88,7 +95,6 @@
         function closePopup() {
             document.getElementById('popup').style.display = 'none';
         }
-        // Show the popup when the page loads
         window.onload = function() {
             showPopup();
         };
