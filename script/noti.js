@@ -13,7 +13,7 @@ module.exports.config = {
 module.exports.run = async ({ api, event, args }) => {
     if (args.length < 1) {
         return api.sendMessage(
-            "Syntax error, use: noti all [Text] or noti [ID(s)] [Text]",
+            "Syntax error: use noti all [Text] or noti [ID(s)] [Text].",
             event.threadID,
             event.messageID
         );
