@@ -26,7 +26,7 @@ module.exports.run = async function ({ api, event, args }) {
         // If no prompt is provided, send a help message
         if (!prompt) {
             return api.sendMessage(
-                `Please use the format: gpt4 [your question].`,
+                `Please provide a prompt to get a response from GPT 4.`,
                 threadID,
                 messageID
             );
