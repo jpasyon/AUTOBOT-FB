@@ -31,18 +31,40 @@ module.exports.run = async function ({ api, event, args }) {
             );
         }
 
-        // Delay
+        // Delay for smooth response
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // API URL with updated format
+        // Updated API URL
         const apiUrl = `https://haji-mix.onrender.com/gpt4om?prompt=${encodeURIComponent(prompt)}`;
 
-        const response = await axios.get(apiUrl);
+        let attempts = 0;
+        let response;
 
-        if (response.data && response.data.message) {
+        // Retry logic for API request (3 attempts)
+        while (attempts < 3) {
+            try {
+                response = await axios.get(apiUrl);
+                if (response.data && response.data.message) {
+                    break;
+                }
+            } catch (error) {
+                attempts++;
+                if (attempts >= 3) {
+                    console.error(error);
+                    return api.sendMessage(
+                        "An error occurred while communicating with the API. Please try again later.",
+                        threadID,
+                        messageID
+                    );
+                }
+                await new Promise((resolve) => setTimeout(resolve, 2000));
+            }
+        }
+
+        if (response && response.data && response.data.message) {
             const generatedText = response.data.message;
 
-            // Send the response with the correct format
+            // Send the response with the proper format
             api.sendMessage(
                 `Answer:\n${generatedText}`,
                 threadID,
@@ -56,7 +78,7 @@ module.exports.run = async function ({ api, event, args }) {
             );
         }
     } catch (error) {
-        // Error handling with clear message
+        // Enhanced error handling with specific message
         console.error(error);
         api.sendMessage(
             "An error occurred while processing your request. Please try again later.",
