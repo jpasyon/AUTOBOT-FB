@@ -1,29 +1,15 @@
 module.exports.config = {
     name: "restart",
     version: "1.0.0",
-    role: 2,
-    credits: "Juno",  // Credits updated to Juno
+    hasPermission: 2,
+    credits: "Juno",
     description: "Restart Bot",
-    hasPrefix: false,
     commandCategory: "system",
-    usages: "restart",
-    cooldowns: 0
+    usages: "",
+    cooldowns: 5
 };
 
-const fs = require("fs-extra");
-
-module.exports.handleEvent = async function ({ api, admin }) {
-    const pathFile = ${__dirname}/../cache/restart.txt;
-    if (fs.existsSync(pathFile)) {
-        const [tid] = fs.readFileSync(pathFile, "utf-8").split(" ");
-        api.sendMessage("Bot restarted", tid, admin);
-        fs.unlinkSync(pathFile);
-    }
-};
-
-module.exports.run = async function ({ api, event }) {
-    const pathFile = ${__dirname}/../cache/restart.txt;
-    fs.writeFileSync(pathFile, ${event.threadID} ${Date.now()});
-    await api.sendMessage("Bot is now restarting...", event.threadID);
-    process.exit(2);
+module.exports.run = async ({ api, event, args }) => {
+    const { threadID, messageID } = event;
+    return api.sendMessage(`${global.config.BOTNAME} Bot is now restarting...`, threadID, () => process.exit(1));
 };
