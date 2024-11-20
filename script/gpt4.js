@@ -1,12 +1,12 @@
 const axios = require("axios");
 
 module.exports.config = {
-    name: "gpt4", // Command name
+    name: "gpt4",
     version: "1.0.0",
     hasPermission: 0,
-    credits: "Juno", // Updated credits
+    credits: "Juno",
     description: "Chat with GPT-4 using a conversational format.",
-    usePrefix: false, // No prefix required
+    usePrefix: false,
     commandCategory: "GPT4",
     cooldowns: 5,
 };
@@ -15,15 +15,12 @@ module.exports.run = async function ({ api, event, args }) {
     try {
         const { messageID, threadID, body } = event;
 
-        // Ensure the message starts with "gpt4" (case-insensitive)
         if (!body || !body.toLowerCase().startsWith("gpt4")) {
             return;
         }
 
-        // Extract the prompt by removing "gpt4" from the message
-        const prompt = body.slice(5).trim(); // Removes "gpt4 " (5 characters)
+        const prompt = body.slice(5).trim();
 
-        // If no prompt is provided, send a help message
         if (!prompt) {
             return api.sendMessage(
                 `Please provide a prompt to get a response from GPT 4.`,
@@ -32,20 +29,17 @@ module.exports.run = async function ({ api, event, args }) {
             );
         }
 
-        // Delay
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // API URL
         const apiUrl = `https://api.y2pheq.me/gpt4?prompt=${encodeURIComponent(prompt)}`;
 
-        // Try API call with a retry mechanism in case of failure
         let attempts = 0;
         let response;
         while (attempts < 3) {
             try {
                 response = await axios.get(apiUrl);
                 if (response.data && response.data.result) {
-                    break; // Successfully got a result, exit the loop
+                    break;
                 }
             } catch (error) {
                 attempts++;
@@ -57,14 +51,13 @@ module.exports.run = async function ({ api, event, args }) {
                         messageID
                     );
                 }
-                await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait before retrying
+                await new Promise((resolve) => setTimeout(resolve, 2000));
             }
         }
 
         if (response && response.data && response.data.result) {
             const generatedText = response.data.result;
 
-            // Send the response in the specified format
             api.sendMessage(
                 `Answer GPT 4 Conversational:\n${generatedText}.\n\nType 'clear' to delete the conversation history.`,
                 threadID,
@@ -78,7 +71,6 @@ module.exports.run = async function ({ api, event, args }) {
             );
         }
     } catch (error) {
-        // Error handling with clear message
         console.error(error);
         api.sendMessage(
             `An error occurred while processing your request. Please try again later.`,
