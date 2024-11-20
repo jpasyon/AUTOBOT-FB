@@ -11,5 +11,5 @@ module.exports.config = {
 
 module.exports.run = async ({ api, event, args }) => {
     const { threadID, messageID } = event;
-    return api.sendMessage(`${global.config.BOTNAME} Bot is now restarting...`, threadID, () => process.exit(1));
+    return api.sendMessage("Bot is now restarting...", threadID, () => process.exit(1));
 };
