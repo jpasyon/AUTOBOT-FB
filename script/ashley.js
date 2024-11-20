@@ -24,7 +24,7 @@ module.exports.run = async function ({ api, event, args }) {
 
         // Check if there is a query
         if (args.length === 0) {
-            api.sendMessage("Please provide a query: ex: ashley subo moto.", event.threadID, event.messageID);
+            api.sendMessage("Please provide a query: Ex. ashley subo moto.", event.threadID, event.messageID);
             return;
         }
 
