@@ -35,7 +35,7 @@ module.exports.run = async function ({ api, event, args }) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // API URL with "aidetect:" in the prompt
-        const apiUrl = `https://haji-mix.onrender.com/aidetect?text=${encodeURIComponent(text)}`;
+        const apiUrl = `https://joshweb.click/ai-detect?q=${encodeURIComponent(text)}`;
 
         const response = await axios.get(apiUrl);
 
