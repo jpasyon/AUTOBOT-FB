@@ -1,13 +1,13 @@
 const axios = require("axios");
 
 module.exports.config = {
-    name: "ai",
+    name: "gpt3",
     version: "1.0.0",
     hasPermission: 0,
     credits: "Juno",
     description: "GPT architecture",
     usePrefix: false,
-    commandCategory: "GPT4",
+    commandCategory: "GPT3",
     cooldowns: 5,
 };
 
@@ -16,31 +16,26 @@ module.exports.run = async function ({ api, event, args }) {
         const { messageID, messageReply, threadID, senderID } = event;
         let prompt = args.join(" ");
 
-        // Include replied message in the prompt if it exists
         if (messageReply && messageReply.body) {
             const repliedMessage = messageReply.body;
             prompt = `${repliedMessage} ${prompt}`;
         }
 
-        // If no prompt is provided, send a help message
         if (!prompt.trim()) {
             return api.sendMessage(
-                "Please provide a prompt to get a response.",
+                "Please provide a prompt to get a response from GPT 3.",
                 threadID,
                 messageID
             );
         }
 
-        // Delay for smooth response
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // Updated API URL
-        const apiUrl = `https://haji-mix.onrender.com/gpt4om?prompt=${encodeURIComponent(prompt)}`;
+        const apiUrl = `https://haji-mix.onrender.com/gpt3om?prompt=${encodeURIComponent(prompt)}`;
 
         let attempts = 0;
         let response;
 
-        // Retry logic for API request (3 attempts)
         while (attempts < 3) {
             try {
                 response = await axios.get(apiUrl);
@@ -64,9 +59,8 @@ module.exports.run = async function ({ api, event, args }) {
         if (response && response.data && response.data.message) {
             const generatedText = response.data.message;
 
-            // Send the response with the proper format
             api.sendMessage(
-                `Answer:\n${generatedText}`,
+                `Answer GPT 3:\n${generatedText}\n\nType 'clear' to delete the conversation history.`,
                 threadID,
                 messageID
             );
@@ -78,7 +72,6 @@ module.exports.run = async function ({ api, event, args }) {
             );
         }
     } catch (error) {
-        // Enhanced error handling with specific message
         console.error(error);
         api.sendMessage(
             "An error occurred while processing your request. Please try again later.",
