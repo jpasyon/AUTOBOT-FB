@@ -11,7 +11,7 @@ module.exports.config = {
 
 module.exports.handleEvent = async function ({ api, event }) {
   if (event.body) {
-    const emojis = ['❤','😆','😮','👍'];
+    const emojis = [' '];
     const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
 
     api.setMessageReaction(randomEmoji, event.messageID, () => {}, true);
