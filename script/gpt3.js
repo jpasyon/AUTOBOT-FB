@@ -31,7 +31,7 @@ module.exports.run = async function ({ api, event, args }) {
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        const apiUrl = `https://haji-mix.onrender.com/gpt3om?prompt=${encodeURIComponent(prompt)}`;
+        const apiUrl = `https://haji-mix.onrender.com/gpt4om?prompt=${encodeURIComponent(prompt)}`;
 
         let attempts = 0;
         let response;
@@ -39,15 +39,11 @@ module.exports.run = async function ({ api, event, args }) {
         while (attempts < 3) {
             try {
                 response = await axios.get(apiUrl);
-                console.log("API Response:", response.data); // Log the full API response
                 if (response.data && response.data.message) {
                     break;
-                } else {
-                    console.error("Response data is missing 'message':", response.data);
                 }
             } catch (error) {
                 attempts++;
-                console.error("API call failed:", error); // Log error if API call fails
                 if (attempts >= 3) {
                     return api.sendMessage(
                         "An error occurred while communicating with the API. Please try again later.",
@@ -75,7 +71,6 @@ module.exports.run = async function ({ api, event, args }) {
             );
         }
     } catch (error) {
-        console.error("Error processing request:", error);
         api.sendMessage(
             "An error occurred while processing your request. Please try again later.",
             event.threadID,
