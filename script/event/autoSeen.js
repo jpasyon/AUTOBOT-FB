@@ -11,6 +11,5 @@ module.exports.config = {
 
 module.exports.handleEvent = async function ({ api, event }) {
   if (event.body) {
-    api.setMessageRead(event.messageID, () => {}, true);
   }
 };
