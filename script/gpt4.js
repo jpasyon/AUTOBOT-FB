@@ -44,7 +44,6 @@ module.exports.run = async function ({ api, event, args }) {
             } catch (error) {
                 attempts++;
                 if (attempts >= 3) {
-                    console.error(error);
                     return api.sendMessage(
                         `An error occurred while communicating with the GPT-4 API. Please try again later.`,
                         threadID,
@@ -71,7 +70,6 @@ module.exports.run = async function ({ api, event, args }) {
             );
         }
     } catch (error) {
-        console.error(error);
         api.sendMessage(
             `An error occurred while processing your request. Please try again later.`,
             threadID,
