@@ -39,13 +39,16 @@ module.exports.run = async function ({ api, event, args }) {
         while (attempts < 3) {
             try {
                 response = await axios.get(apiUrl);
+                console.log("API Response:", response.data); // Log the full API response
                 if (response.data && response.data.message) {
                     break;
+                } else {
+                    console.error("Response data is missing 'message':", response.data);
                 }
             } catch (error) {
                 attempts++;
+                console.error("API call failed:", error); // Log error if API call fails
                 if (attempts >= 3) {
-                    console.error(error);
                     return api.sendMessage(
                         "An error occurred while communicating with the API. Please try again later.",
                         threadID,
@@ -66,13 +69,13 @@ module.exports.run = async function ({ api, event, args }) {
             );
         } else {
             api.sendMessage(
-                "The response from the server is empty. Please try again later.",
+                "The response from the server is empty or invalid. Please try again later.",
                 threadID,
                 messageID
             );
         }
     } catch (error) {
-        console.error(error);
+        console.error("Error processing request:", error);
         api.sendMessage(
             "An error occurred while processing your request. Please try again later.",
             event.threadID,
