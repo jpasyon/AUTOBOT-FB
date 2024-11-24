@@ -8,25 +8,25 @@ module.exports.config = {
     hasPrefix: false,
     version: "1.0.0",
     aliases: ["gemini"],
-    usage: "gemini [reply to photo]"
+    usage: "gemini [url] [question]"
 };
 
 module.exports.run = async function ({ api, event, args }) {
-    const prompt = "gemini";
+    const prompt = args.slice(1).join(" ") || "gemini";
 
-    if (event.type !== "message_reply" || !event.messageReply.attachments[0] || event.messageReply.attachments[0].type !== "photo") {
+    if (args.length < 2 || !args[0].startsWith('http')) {
         return api.sendMessage(
-            'Please reply to a photo with this command.', 
+            'Please provide a valid URL and a question.', 
             event.threadID, 
             event.messageID
         );
     }
 
-    const url = encodeURIComponent(event.messageReply.attachments[0].url);
+    const url = encodeURIComponent(args[0]);
     api.sendTypingIndicator(event.threadID);
 
     try {
-        await api.sendMessage('Recognizing...', event.threadID);
+        await api.sendMessage('Fetching...', event.threadID);
 
         const response = await axios.get(`https://joshweb.click/gemini?prompt=${encodeURIComponent(prompt)}&url=${url}`);
         const description = response.data?.gemini;
@@ -36,7 +36,7 @@ module.exports.run = async function ({ api, event, args }) {
         }
 
         return api.sendMessage(
-            `Answer:\n${description}`, 
+            `Answer Gemini:\n${description}`, 
             event.threadID, 
             event.messageID
         );
