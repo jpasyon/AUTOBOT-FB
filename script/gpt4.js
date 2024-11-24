@@ -15,7 +15,7 @@ module.exports.run = async function ({ api, event, args }) {
     try {
         const { messageID, threadID, body } = event;
 
-        if (!body || !body.toLowerCase().startsWith("gpt4")) {
+        if (!body || !body.toLowerCase().startsWith("gpt4 ")) {
             return;
         }
 
