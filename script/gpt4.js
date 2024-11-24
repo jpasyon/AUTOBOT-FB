@@ -23,7 +23,7 @@ module.exports.run = async function ({ api, event, args }) {
 
         if (!prompt) {
             return api.sendMessage(
-                `Please provide a prompt to get a response from GPT 4.`,
+                `Please provide a prompt to get a response from GPT-4.`,
                 threadID,
                 messageID
             );
@@ -31,7 +31,7 @@ module.exports.run = async function ({ api, event, args }) {
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        const apiUrl = `https://api.y2pheq.me/gpt4?prompt=${encodeURIComponent(prompt)}`;
+        const apiUrl = `https://markdevs-last-api-2epw.onrender.com/api/v2/gpt4?query=${encodeURIComponent(prompt)}`;
 
         let attempts = 0;
         let response;
@@ -59,7 +59,7 @@ module.exports.run = async function ({ api, event, args }) {
             const generatedText = response.data.result;
 
             api.sendMessage(
-                `Answer GPT 4 Conversational:\n${generatedText}.\n\nType 'clear' to delete the conversation history.`,
+                `Answer GPT 4 Conversational:\n${generatedText}\n\nType 'clear' to delete the conversation history.`,
                 threadID,
                 messageID
             );
