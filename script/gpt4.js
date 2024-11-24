@@ -5,7 +5,7 @@ module.exports.config = {
     version: "1.0.0",
     hasPermission: 0,
     credits: "Juno",
-    description: "Chat with GPT-4 using a conversational format.",
+    description: "Chat with GPT-4.",
     usePrefix: false,
     commandCategory: "GPT4",
     cooldowns: 5,
