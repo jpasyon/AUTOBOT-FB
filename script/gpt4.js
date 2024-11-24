@@ -59,7 +59,7 @@ module.exports.run = async function ({ api, event, args }) {
             const generatedText = response.data.result;
 
             api.sendMessage(
-                `Answer GPT 4 Conversational:\n${generatedText}\n\nType 'clear' to delete the conversation history.`,
+                `Answer GPT 4:\n${generatedText}\n\nType 'clear' to delete the conversation history.`,
                 threadID,
                 messageID
             );
