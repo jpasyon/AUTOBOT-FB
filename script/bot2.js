@@ -1,14 +1,14 @@
 const axios = require('axios');
 
 module.exports.config = {
-    name: "ai2",
+    name: "bot2",
     role: 0,
     credits: "Juno",
     description: "Interact with Gemini",
     hasPrefix: false,
     version: "1.0.0",
     aliases: ["gemini"],
-    usage: "gemini [reply to photo]"
+    usage: "bot2 [reply to photo]"
 };
 
 module.exports.run = async function ({ api, event, args }) {
@@ -43,9 +43,8 @@ module.exports.run = async function ({ api, event, args }) {
             throw new Error("No description found in the API response.");
         }
 
-        // Format the response as required
         return api.sendMessage(
-            `Answer:\n${description}`,  // Ensures the response is formatted as "Answer:\nanswer here"
+            `Answer:\n${description}`, 
             event.threadID, 
             event.messageID
         );
