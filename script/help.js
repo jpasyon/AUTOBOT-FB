@@ -21,15 +21,15 @@ module.exports.run = async function ({ api, event, args }) {
 Commands:
 •accept
 •aidetect
+•adobo [question]
 •ashley ❌
 •bible
 •blackbox
+•blackbox [question]
 •bot2 [image recognition]
 •codegpt
 •count
 •element
-•gemini [url of an image] [question]
-•gemma [question]
 •gf ❌
 •gpt3 [question]
 •gpt4 [question]
@@ -52,8 +52,10 @@ Commands:
 •restart
 •riddle
 •rizz
+•shoti
 •tempm
 •tiktok
+•trans [en, tl, es, fr, ja, zh-CN, zh-TW]
 •uid
 •unsend
 •uptime
