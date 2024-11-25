@@ -21,7 +21,6 @@ module.exports.run = async function({ api, event, args }) {
 
     let responseMessage;
     try {
-        // Send the initial "thinking" message as a reply to the user's message
         responseMessage = await new Promise((resolve, reject) => {
             api.sendMessage('Searching, please wait...', event.threadID, (err, info) => {
                 if (err) return reject(err);
@@ -29,17 +28,14 @@ module.exports.run = async function({ api, event, args }) {
             }, event.messageID);
         });
 
-        // Fetch data from the new API endpoint with the user prompt
-        const response = await axios.get('https://jonellprojectccapisexplorer.onrender.com/api/blackbox', {
-            params: { text: prompt }
-        });
+        const apiUrl = `https://jonellprojectccapisexplorer.onrender.com/api/blackbox?text=${encodeURIComponent(prompt)}`;
+        const response = await axios.get(apiUrl);
 
         const result = response.data;
         const responseString = result.data ? result.data : 'No result found.';
 
         const formattedResponse = `Answer Blackbox:\n${responseString}`;
 
-        // Edit the initial message with the final response
         await api.editMessage(formattedResponse, responseMessage.messageID);
 
     } catch (error) {
