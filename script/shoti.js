@@ -6,7 +6,7 @@ module.exports.config = {
     version: "1.0.0",
     hasPermission: 0,
     description: "random video from Shoti API By Lib API",
-    usePrefix: true,
+    usePrefix: false,
     credits: "Jonell Magallanes",
     cooldowns: 15,
     commandCategory: "Media",
